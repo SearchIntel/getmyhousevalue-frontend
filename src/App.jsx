@@ -5,7 +5,7 @@ import { Home, Search, TrendingUp, Info, AlertTriangle, CheckCircle, MapPin, Arr
 // --- 1. CONFIGURATION ---
 // When you deploy the backend later, you will put that URL here.
 // For now, it will safely default to using the internal Mock Data.
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000"; 
+const BACKEND_URL = "https://getmyhousevalue-backend.onrender.com"; 
 
 // --- 2. INTERNAL HOUSE PRICE INDEX (HPI) DATABASE ---
 const HPI_DATA = {
