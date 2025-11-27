@@ -3,8 +3,6 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { Home, Search, TrendingUp, Info, AlertTriangle, CheckCircle, MapPin, ArrowRight, Building2, Scale } from 'lucide-react';
 
 // --- 1. CONFIGURATION ---
-// When you deploy the backend later, you will put that URL here.
-// For now, it will safely default to using the internal Mock Data.
 const BACKEND_URL = "https://getmyhousevalue-backend.onrender.com"; 
 
 // --- 2. INTERNAL HOUSE PRICE INDEX (HPI) DATABASE ---
@@ -33,25 +31,34 @@ const MOCK_PROPERTIES = [
 
 // --- 3. API FUNCTIONS ---
 
-const getRegionForPostcode = async (postcode) => {
+// Updated to return the formatted postcode (with space)
+const getPostcodeDetails = async (inputPostcode) => {
   try {
-    const res = await fetch(`https://api.postcodes.io/postcodes/${postcode}`);
+    const res = await fetch(`https://api.postcodes.io/postcodes/${inputPostcode}`);
     const data = await res.json();
+    
     if (data.status === 200) {
       const region = data.result.region || data.result.admin_district;
-      if (region && region.includes("London")) return "London";
-      if (region && region.includes("South East")) return "South East";
-      return "UK Average"; 
+      // Map result to our HPI keys
+      let regionKey = "UK Average";
+      if (region && region.includes("London")) regionKey = "London";
+      if (region && region.includes("South East")) regionKey = "South East";
+      
+      return { 
+        regionKey, 
+        formattedPostcode: data.result.postcode // Returns "GU25 4DG" correctly
+      };
     }
   } catch (e) {
-    console.warn("Postcode lookup failed, defaulting to UK Average");
+    console.warn("Postcode lookup failed");
   }
-  return "UK Average";
+  return { regionKey: "UK Average", formattedPostcode: inputPostcode };
 };
 
 const fetchProperties = async (postcode) => {
   try {
-    const response = await fetch(`${BACKEND_URL}/api/properties?postcode=${postcode}`);
+    // Send the correctly formatted postcode to the backend
+    const response = await fetch(`${BACKEND_URL}/api/properties?postcode=${encodeURIComponent(postcode)}`);
     if (!response.ok) throw new Error("Backend not reachable");
     return await response.json();
   } catch (e) {
@@ -111,7 +118,7 @@ const Report = ({ property, region, onReset }) => {
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 max-w-5xl mx-auto">
       
-      {/* Hero Result - Modern Emerald Theme */}
+      {/* Hero Result */}
       <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-emerald-50 mb-8">
         <div className="bg-emerald-600 px-8 py-10 text-center text-white relative overflow-hidden">
           <div className="relative z-10">
@@ -127,7 +134,6 @@ const Report = ({ property, region, onReset }) => {
             </div>
           </div>
           
-          {/* Decorative circles */}
           <div className="absolute top-0 left-0 w-64 h-64 bg-white/5 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
           <div className="absolute bottom-0 right-0 w-96 h-96 bg-emerald-500/50 rounded-full translate-x-1/3 translate-y-1/3 blur-3xl"></div>
         </div>
@@ -229,10 +235,15 @@ export default function App() {
   const handleSearch = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const r = await getRegionForPostcode(postcode);
-    setRegion(r);
-    const props = await fetchProperties(postcode);
+    
+    // 1. Get correct region AND formatted postcode (e.g. "GU25 4DG")
+    const details = await getPostcodeDetails(postcode);
+    setRegion(details.regionKey);
+
+    // 2. Fetch properties using the CLEAN postcode
+    const props = await fetchProperties(details.formattedPostcode);
     setProperties(props);
+    
     setLoading(false);
     setStep(2);
   };
@@ -287,24 +298,31 @@ export default function App() {
           <div className="max-w-2xl mx-auto mt-10 animate-in slide-in-from-bottom-8 fade-in duration-500">
             <button onClick={() => setStep(1)} className="text-sm text-gray-500 hover:text-gray-900 mb-6 flex items-center gap-1">← Back</button>
             <h2 className="text-2xl font-bold mb-2">Select your address</h2>
-            <p className="text-gray-500 mb-6">We found the following properties in {postcode || "SW1A 1AA"}.</p>
+            <p className="text-gray-500 mb-6">We found the following properties in {postcode.toUpperCase()}.</p>
             
             <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-              {properties.map((addr) => (
-                <button
-                  key={addr.id}
-                  onClick={() => { setSelectedProp(addr); setStep(3); }}
-                  className="w-full text-left px-6 py-4 border-b border-gray-100 hover:bg-emerald-50 transition-colors flex justify-between items-center group"
-                >
-                  <div>
-                    <span className="font-semibold text-gray-800 block group-hover:text-emerald-700">{addr.address}</span>
-                    <span className="text-xs text-gray-400">{addr.type} • {addr.sqMeters}m² • Last sold {new Date(addr.lastSoldDate).getFullYear()}</span>
-                  </div>
-                  <div className="h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center group-hover:bg-emerald-600 group-hover:text-white transition-all">
-                    <ArrowRight size={14} />
-                  </div>
-                </button>
-              ))}
+              {properties.length > 0 ? (
+                properties.map((addr) => (
+                  <button
+                    key={addr.id}
+                    onClick={() => { setSelectedProp(addr); setStep(3); }}
+                    className="w-full text-left px-6 py-4 border-b border-gray-100 hover:bg-emerald-50 transition-colors flex justify-between items-center group"
+                  >
+                    <div>
+                      <span className="font-semibold text-gray-800 block group-hover:text-emerald-700">{addr.address}</span>
+                      <span className="text-xs text-gray-400">{addr.type} • {addr.sqMeters}m² • Last sold {new Date(addr.lastSoldDate).getFullYear()}</span>
+                    </div>
+                    <div className="h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center group-hover:bg-emerald-600 group-hover:text-white transition-all">
+                      <ArrowRight size={14} />
+                    </div>
+                  </button>
+                ))
+              ) : (
+                <div className="p-8 text-center text-gray-500">
+                  <p>No recent sales found for this postcode.</p>
+                  <button onClick={() => setStep(1)} className="mt-4 text-emerald-600 hover:underline">Try another postcode</button>
+                </div>
+              )}
             </div>
           </div>
         )}
