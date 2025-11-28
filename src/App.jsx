@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { Home, Search, TrendingUp, Info, AlertTriangle, CheckCircle, MapPin, ArrowRight, Building2, Scale, FileText, Database, ShieldCheck } from 'lucide-react';
+import { Home, Search, TrendingUp, Info, AlertTriangle, CheckCircle, MapPin, ArrowRight, Building2, Scale, FileText, Database, ShieldCheck, ExternalLink } from 'lucide-react';
 
 // --- CONFIGURATION ---
 const BACKEND_URL = "https://getmyhousevalue-backend.onrender.com"; 
@@ -52,7 +52,6 @@ const calculateValuation = (property, regionKey) => {
   const growthFactor = indexNew / indexOld;
   
   // If lastSoldPrice is 0 (EPC fallback), we can't calculate growth normally.
-  // In a real app, you'd use price per sq meter here. For now, we return 0 to indicate "Estimate Only".
   const estimatedValue = property.lastSoldPrice > 0 ? Math.round(property.lastSoldPrice * growthFactor) : 0;
   
   return { 
@@ -157,27 +156,32 @@ export default function App() {
         <InfoPage title="Data Sources" icon={Database} onBack={() => setPage('home')}>
           <p className="mb-6 text-lg">We are committed to using only <strong>Open Government Data</strong> to ensure neutrality and trust.</p>
           <div className="grid md:grid-cols-2 gap-4">
-            <div className="p-6 bg-gray-50 rounded-xl border border-gray-100 hover:border-emerald-200 transition-colors">
-              <div className="flex items-center gap-2 mb-3 text-emerald-800">
+            <a href="https://use-land-property-data.service.gov.uk/datasets/ppd" target="_blank" rel="noopener noreferrer" className="p-6 bg-gray-50 rounded-xl border border-gray-100 hover:border-emerald-200 transition-colors group cursor-pointer block">
+              <div className="flex items-center gap-2 mb-3 text-emerald-800 group-hover:text-emerald-600">
                 <Scale size={20} />
                 <h3 className="font-bold">HM Land Registry</h3>
+                <ExternalLink size={14} className="ml-auto opacity-50" />
               </div>
               <p className="text-sm text-gray-600">Used for historical sold prices and transaction dates. Contains HM Land Registry data © Crown copyright and database right 2021.</p>
-            </div>
-            <div className="p-6 bg-gray-50 rounded-xl border border-gray-100 hover:border-emerald-200 transition-colors">
-              <div className="flex items-center gap-2 mb-3 text-emerald-800">
+            </a>
+            
+            <a href="https://epc.opendatacommunities.org/" target="_blank" rel="noopener noreferrer" className="p-6 bg-gray-50 rounded-xl border border-gray-100 hover:border-emerald-200 transition-colors group cursor-pointer block">
+              <div className="flex items-center gap-2 mb-3 text-emerald-800 group-hover:text-emerald-600">
                 <Building2 size={20} />
                 <h3 className="font-bold">EPC Register</h3>
+                <ExternalLink size={14} className="ml-auto opacity-50" />
               </div>
               <p className="text-sm text-gray-600">Used to retrieve property square footage and current energy efficiency ratings. Sourced from Open Data Communities.</p>
-            </div>
-            <div className="p-6 bg-gray-50 rounded-xl border border-gray-100 hover:border-emerald-200 transition-colors">
-              <div className="flex items-center gap-2 mb-3 text-emerald-800">
+            </a>
+            
+            <a href="https://landregistry.data.gov.uk/app/ukhpi" target="_blank" rel="noopener noreferrer" className="p-6 bg-gray-50 rounded-xl border border-gray-100 hover:border-emerald-200 transition-colors group cursor-pointer block">
+              <div className="flex items-center gap-2 mb-3 text-emerald-800 group-hover:text-emerald-600">
                 <TrendingUp size={20} />
                 <h3 className="font-bold">ONS Statistics</h3>
+                <ExternalLink size={14} className="ml-auto opacity-50" />
               </div>
               <p className="text-sm text-gray-600">Used for the UK House Price Index (HPI) to calculate regional growth percentages over time.</p>
-            </div>
+            </a>
           </div>
         </InfoPage>
       );
@@ -272,39 +276,4 @@ export default function App() {
                         <div className="p-6 text-center">
                             <div className="text-xs text-gray-400 font-bold uppercase tracking-wider mb-1">Last Sold</div>
                             <div className="text-2xl font-bold text-gray-900">
-                                {selectedProp.lastSoldPrice > 0 ? f(selectedProp.lastSoldPrice) : 'Unknown'}
-                            </div>
-                            <div className="text-xs text-gray-400 mt-1">
-                                {selectedProp.lastSoldDate ? `Recorded on ${new Date(selectedProp.lastSoldDate).toLocaleDateString('en-GB')}` : 'No date recorded'}
-                            </div>
-                        </div>
-                        <div className="p-6 text-center">
-                            <div className="text-xs text-gray-400 font-bold uppercase tracking-wider mb-1">Property Size</div>
-                            <div className="text-2xl font-bold text-gray-900">{selectedProp.sqMeters} m²</div>
-                            <div className="text-xs text-gray-400 mt-1">{selectedProp.type} • EPC {selectedProp.epc}</div>
-                        </div>
-                    </div>
-
-                    <div className="p-8 bg-gray-50 text-center border-t border-gray-100">
-                        <button onClick={() => setStep(1)} className="text-emerald-600 font-medium hover:underline">Valuate Another Property</button>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-  };
-
-  return (
-    <div className="min-h-screen bg-white font-sans text-slate-900">
-      <Header setPage={(p) => { setPage(p); }} />
-      <main className="p-4 md:p-8">{renderContent()}</main>
-      <footer className="border-t py-10 mt-20 bg-gray-50 text-center text-gray-400 text-sm">
-        <p>© 2025 GetMyHouseValue.co.uk. Built with Open Government Data.</p>
-        <div className="mt-4 flex justify-center gap-6">
-            <button onClick={() => setPage('how-it-works')} className="hover:text-gray-600">Methodology</button>
-            <button onClick={() => setPage('data')} className="hover:text-gray-600">Privacy Policy</button>
-        </div>
-      </footer>
-    </div>
-  );
-}
+                                {selectedProp.lastSoldPrice > 0 ? f
