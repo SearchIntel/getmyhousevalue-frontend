@@ -156,7 +156,7 @@ export default function App() {
         <InfoPage title="Data Sources" icon={Database} onBack={() => setPage('home')}>
           <p className="mb-6 text-lg">We are committed to using only <strong>Open Government Data</strong> to ensure neutrality and trust.</p>
           <div className="grid md:grid-cols-2 gap-4">
-            <a href="https://landregistry.data.gov.uk/app/ppd" target="_blank" rel="noopener noreferrer" className="p-6 bg-gray-50 rounded-xl border border-gray-100 hover:border-emerald-200 transition-colors group cursor-pointer block">
+            <a href="https://use-land-property-data.service.gov.uk/datasets/ppd" target="_blank" rel="noopener noreferrer" className="p-6 bg-gray-50 rounded-xl border border-gray-100 hover:border-emerald-200 transition-colors group cursor-pointer block">
               <div className="flex items-center gap-2 mb-3 text-emerald-800 group-hover:text-emerald-600">
                 <Scale size={20} />
                 <h3 className="font-bold">HM Land Registry</h3>
@@ -225,7 +225,7 @@ export default function App() {
           <input
             type="text"
             placeholder="Enter Postcode (e.g. SW1A 1AA)"
-            className="w-full pl-12 pr-4 py-4 text-lg rounded-full border-2 border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-50 outline-none transition-all shadow-sm"
+            className="w-full pl-12 pr-4 py-4 text-lg md:text-xl rounded-full border-2 border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-50 outline-none transition-all shadow-sm text-base"
             value={postcode}
             onChange={(e) => setPostcode(e.target.value)}
           />
@@ -312,7 +312,7 @@ export default function App() {
                     </div>
 
                     <div className="p-8 bg-gray-50 text-center border-t border-gray-100">
-                        <button onClick={() => setStep(1)} className="text-emerald-600 font-medium hover:underline">Valuate Another Property</button>
+                        <button onClick={() => setStep(1)} className="text-emerald-600 font-medium hover:underline">Value Another Property</button>
                     </div>
                 </div>
             </div>
