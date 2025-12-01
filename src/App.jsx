@@ -276,4 +276,39 @@ export default function App() {
                         <div className="p-6 text-center">
                             <div className="text-xs text-gray-400 font-bold uppercase tracking-wider mb-1">Last Sold</div>
                             <div className="text-2xl font-bold text-gray-900">
-                                {selectedProp.lastSoldPrice > 0 ? f
+                                {selectedProp.lastSoldPrice > 0 ? f(selectedProp.lastSoldPrice) : 'Unknown'}
+                            </div>
+                            <div className="text-xs text-gray-400 mt-1">
+                                {selectedProp.lastSoldDate ? `Recorded on ${new Date(selectedProp.lastSoldDate).toLocaleDateString('en-GB')}` : 'No date recorded'}
+                            </div>
+                        </div>
+                        <div className="p-6 text-center">
+                            <div className="text-xs text-gray-400 font-bold uppercase tracking-wider mb-1">Property Size</div>
+                            <div className="text-2xl font-bold text-gray-900">{selectedProp.sqMeters} m²</div>
+                            <div className="text-xs text-gray-400 mt-1">{selectedProp.type} • EPC {selectedProp.epc}</div>
+                        </div>
+                    </div>
+
+                    <div className="p-8 bg-gray-50 text-center border-t border-gray-100">
+                        <button onClick={() => setStep(1)} className="text-emerald-600 font-medium hover:underline">Valuate Another Property</button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-white font-sans text-slate-900">
+      <Header setPage={(p) => { setPage(p); }} />
+      <main className="p-4 md:p-8">{renderContent()}</main>
+      <footer className="border-t py-10 mt-20 bg-gray-50 text-center text-gray-400 text-sm">
+        <p>© 2025 GetMyHouseValue.co.uk. Built with Open Government Data.</p>
+        <div className="mt-4 flex justify-center gap-6">
+            <button onClick={() => setPage('how-it-works')} className="hover:text-gray-600">Methodology</button>
+            <button onClick={() => setPage('data')} className="hover:text-gray-600">Privacy Policy</button>
+        </div>
+      </footer>
+    </div>
+  );
+}
