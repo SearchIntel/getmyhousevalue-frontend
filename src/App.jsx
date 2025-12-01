@@ -242,17 +242,17 @@ export default function App() {
         return (
             <div className="max-w-4xl mx-auto mt-10 animate-in fade-in px-6">
                 <button onClick={() => setStep(2)} className="mb-6 text-sm text-gray-500 hover:text-gray-900 flex items-center gap-1">← Back to List</button>
-                <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-emerald-50 mb-8">
-                    <div className="bg-emerald-600 px-8 py-10 text-center text-white">
-                        <h2 className="text-3xl font-bold mb-2">{selectedProp.address}</h2>
+                <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-emerald-50 mb-8 w-full">
+                    <div className="bg-emerald-600 px-6 py-10 text-center text-white">
+                        <h2 className="text-2xl md:text-3xl font-bold mb-2 break-words">{selectedProp.address}</h2>
                         <p className="text-emerald-100 mb-6">{selectedProp.postcode}</p>
                         
-                        <div className="inline-block bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20">
+                        <div className="inline-block w-full max-w-sm bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
                             <p className="text-emerald-100 text-sm font-medium uppercase tracking-widest mb-2">Estimated Market Value</p>
                             {estimatedValue > 0 ? (
                                 <>
-                                    <div className="text-5xl font-extrabold tracking-tight mb-2">{f(estimatedValue)}</div>
-                                    <p className="text-emerald-200">Range: {f(lowerBound)} - {f(upperBound)}</p>
+                                    <div className="text-4xl md:text-5xl font-extrabold tracking-tight mb-2">{f(estimatedValue)}</div>
+                                    <p className="text-emerald-200 text-sm md:text-base">Range: {f(lowerBound)} - {f(upperBound)}</p>
                                 </>
                             ) : (
                                 <div className="text-white">
