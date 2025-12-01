@@ -98,7 +98,7 @@ const Header = ({ setPage }) => (
 // --- MAIN APP ---
 
 export default function App() {
-  const [page, setPage] = useState('home'); // 'home', 'how-it-works', 'data'
+  const [page, setPage] = useState('home'); // 'home', 'how-it-works', 'data', 'privacy'
   const [step, setStep] = useState(1); // 1=Search, 2=List, 3=Result
   const [postcode, setPostcode] = useState('');
   const [loading, setLoading] = useState(false);
@@ -185,6 +185,28 @@ export default function App() {
           </div>
         </InfoPage>
       );
+    }
+
+    if (page === 'privacy') {
+        return (
+          <InfoPage title="Privacy Policy" icon={ShieldCheck} onBack={() => setPage('home')}>
+            <p className="mb-4"><strong>Last Updated: December 2025</strong></p>
+            <p className="mb-4">At GetMyHouseValue.co.uk, we prioritize your privacy. We believe in transparency and collecting only what is strictly necessary to provide our service.</p>
+            
+            <h3 className="font-bold text-gray-900 mt-6 mb-2">1. Information We Collect</h3>
+            <p className="mb-4">We do not require you to create an account, provide your name, or submit your email address to use this service.</p>
+            <ul className="list-disc pl-5 space-y-2 mb-4">
+              <li><strong>Search Data:</strong> We process the postcodes you enter solely to retrieve property data from the HM Land Registry and EPC Register. We do not store this data permanently linked to your identity.</li>
+              <li><strong>Usage Data:</strong> We use Google Analytics to understand how visitors interact with our website (e.g., number of visitors, pages visited). This data is anonymized.</li>
+            </ul>
+  
+            <h3 className="font-bold text-gray-900 mt-6 mb-2">2. Cookies</h3>
+            <p className="mb-4">We use cookies to ensure the basic functionality of the website and for Google Analytics tracking.</p>
+  
+            <h3 className="font-bold text-gray-900 mt-6 mb-2">3. Third-Party Data</h3>
+            <p className="mb-4">Our service relies on public sector information licensed under the Open Government Licence v3.0 from HM Land Registry and the Department for Levelling Up, Housing and Communities.</p>
+          </InfoPage>
+        );
     }
 
     // Default Home Page Logic
@@ -306,7 +328,7 @@ export default function App() {
         <p>© 2025 GetMyHouseValue.co.uk. Built with Open Government Data.</p>
         <div className="mt-4 flex justify-center gap-6">
             <button onClick={() => setPage('how-it-works')} className="hover:text-gray-600">Methodology</button>
-            <button onClick={() => setPage('data')} className="hover:text-gray-600">Privacy Policy</button>
+            <button onClick={() => setPage('privacy')} className="hover:text-gray-600">Privacy Policy</button>
         </div>
       </footer>
     </div>
