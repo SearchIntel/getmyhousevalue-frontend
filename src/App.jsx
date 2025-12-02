@@ -98,7 +98,7 @@ const Header = ({ setPage }) => (
 // --- MAIN APP ---
 
 export default function App() {
-  const [page, setPage] = useState('home'); // 'home', 'how-it-works', 'data', 'privacy'
+  const [page, setPage] = useState('home'); // 'home', 'how-it-works', 'data'
   const [step, setStep] = useState(1); // 1=Search, 2=List, 3=Result
   const [postcode, setPostcode] = useState('');
   const [loading, setLoading] = useState(false);
@@ -156,7 +156,7 @@ export default function App() {
         <InfoPage title="Data Sources" icon={Database} onBack={() => setPage('home')}>
           <p className="mb-6 text-lg">We are committed to using only <strong>Open Government Data</strong> to ensure neutrality and trust.</p>
           <div className="grid md:grid-cols-2 gap-4">
-            <a href="https://use-land-property-data.service.gov.uk/datasets/ppd" target="_blank" rel="noopener noreferrer" className="p-6 bg-gray-50 rounded-xl border border-gray-100 hover:border-emerald-200 transition-colors group cursor-pointer block">
+            <a href="https://landregistry.data.gov.uk/app/ppd" target="_blank" rel="noopener noreferrer" className="p-6 bg-gray-50 rounded-xl border border-gray-100 hover:border-emerald-200 transition-colors group cursor-pointer block">
               <div className="flex items-center gap-2 mb-3 text-emerald-800 group-hover:text-emerald-600">
                 <Scale size={20} />
                 <h3 className="font-bold">HM Land Registry</h3>
@@ -187,28 +187,6 @@ export default function App() {
       );
     }
 
-    if (page === 'privacy') {
-        return (
-          <InfoPage title="Privacy Policy" icon={ShieldCheck} onBack={() => setPage('home')}>
-            <p className="mb-4"><strong>Last Updated: December 2025</strong></p>
-            <p className="mb-4">At GetMyHouseValue.co.uk, we prioritize your privacy. We believe in transparency and collecting only what is strictly necessary to provide our service.</p>
-            
-            <h3 className="font-bold text-gray-900 mt-6 mb-2">1. Information We Collect</h3>
-            <p className="mb-4">We do not require you to create an account, provide your name, or submit your email address to use this service.</p>
-            <ul className="list-disc pl-5 space-y-2 mb-4">
-              <li><strong>Search Data:</strong> We process the postcodes you enter solely to retrieve property data from the HM Land Registry and EPC Register. We do not store this data permanently linked to your identity.</li>
-              <li><strong>Usage Data:</strong> We use Google Analytics to understand how visitors interact with our website (e.g., number of visitors, pages visited). This data is anonymized.</li>
-            </ul>
-  
-            <h3 className="font-bold text-gray-900 mt-6 mb-2">2. Cookies</h3>
-            <p className="mb-4">We use cookies to ensure the basic functionality of the website and for Google Analytics tracking.</p>
-  
-            <h3 className="font-bold text-gray-900 mt-6 mb-2">3. Third-Party Data</h3>
-            <p className="mb-4">Our service relies on public sector information licensed under the Open Government Licence v3.0 from HM Land Registry and the Department for Levelling Up, Housing and Communities.</p>
-          </InfoPage>
-        );
-    }
-
     // Default Home Page Logic
     if (step === 1) return (
       <div className="max-w-3xl mx-auto mt-12 md:mt-20 text-center animate-in fade-in duration-700 px-6">
@@ -225,7 +203,7 @@ export default function App() {
           <input
             type="text"
             placeholder="Enter Postcode (e.g. SW1A 1AA)"
-            className="w-full pl-12 pr-4 py-4 text-lg md:text-xl rounded-full border-2 border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-50 outline-none transition-all shadow-sm text-base"
+            className="w-full pl-12 pr-4 py-4 text-base md:text-xl rounded-full border-2 border-gray-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-50 outline-none transition-all shadow-sm"
             value={postcode}
             onChange={(e) => setPostcode(e.target.value)}
           />
