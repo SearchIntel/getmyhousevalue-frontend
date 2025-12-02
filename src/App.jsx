@@ -187,6 +187,28 @@ export default function App() {
       );
     }
 
+    if (page === 'privacy') {
+        return (
+          <InfoPage title="Privacy Policy" icon={ShieldCheck} onBack={() => setPage('home')}>
+            <p className="mb-4"><strong>Last Updated: December 2025</strong></p>
+            <p className="mb-4">At GetMyHouseValue.co.uk, we prioritize your privacy. We believe in transparency and collecting only what is strictly necessary to provide our service.</p>
+            
+            <h3 className="font-bold text-gray-900 mt-6 mb-2">1. Information We Collect</h3>
+            <p className="mb-4">We do not require you to create an account, provide your name, or submit your email address to use this service.</p>
+            <ul className="list-disc pl-5 space-y-2 mb-4">
+              <li><strong>Search Data:</strong> We process the postcodes you enter solely to retrieve property data from the HM Land Registry and EPC Register. We do not store this data permanently linked to your identity.</li>
+              <li><strong>Usage Data:</strong> We use Google Analytics to understand how visitors interact with our website (e.g., number of visitors, pages visited). This data is anonymized.</li>
+            </ul>
+  
+            <h3 className="font-bold text-gray-900 mt-6 mb-2">2. Cookies</h3>
+            <p className="mb-4">We use cookies to ensure the basic functionality of the website and for Google Analytics tracking.</p>
+  
+            <h3 className="font-bold text-gray-900 mt-6 mb-2">3. Third-Party Data</h3>
+            <p className="mb-4">Our service relies on public sector information licensed under the Open Government Licence v3.0 from HM Land Registry and the Department for Levelling Up, Housing and Communities.</p>
+          </InfoPage>
+        );
+    }
+
     // Default Home Page Logic
     if (step === 1) return (
       <div className="max-w-3xl mx-auto mt-12 md:mt-20 text-center animate-in fade-in duration-700 px-6">
@@ -199,7 +221,7 @@ export default function App() {
         <p className="text-xl text-gray-500 mb-10 max-w-2xl mx-auto leading-relaxed">
           Instant valuation based on official sold prices and {region} index adjustments. No estate agents calling you. 100% Free.
         </p>
-        <form onSubmit={handleSearch} className="max-w-md mx-auto relative">
+        <form onSubmit={handleSearch} className="max-w-md mx-auto relative mb-12">
           <input
             type="text"
             placeholder="Enter Postcode (e.g. SW1A 1AA)"
@@ -213,6 +235,34 @@ export default function App() {
             {!loading && <ArrowRight size={16} />}
           </button>
         </form>
+
+        {/* --- NEW CONTENT SECTION FOR ADSENSE APPROVAL --- */}
+        <div className="text-left mt-16 pt-12 border-t border-gray-100">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Understanding UK Property Valuations</h2>
+            
+            <div className="grid md:grid-cols-2 gap-8 text-gray-600">
+                <div>
+                    <h3 className="font-bold text-emerald-800 mb-2">How Accurate Are Online Valuations?</h3>
+                    <p className="mb-4 text-sm leading-relaxed">
+                        Automated Valuation Models (AVMs) like GetMyHouseValue.co.uk provide a data-driven baseline for your property's worth. By analyzing historical sold data from the HM Land Registry and applying regional economic growth factors from the Office for National Statistics (ONS), we can estimate a property's current market value with a high degree of statistical accuracy.
+                    </p>
+                    <p className="text-sm leading-relaxed">
+                        However, no online tool can see your new kitchen, loft conversion, or the general condition of your interior. This tool is best used as a starting point before inviting estate agents for a physical appraisal.
+                    </p>
+                </div>
+                <div>
+                    <h3 className="font-bold text-emerald-800 mb-2">The Impact of Regional Indexing</h3>
+                    <p className="mb-4 text-sm leading-relaxed">
+                        Property markets in the UK are highly localized. A house in London behaves very differently from one in the North East. Our "Index-Adjusted" model accounts for this by applying specific regional growth rates.
+                    </p>
+                    <p className="text-sm leading-relaxed">
+                        For example, if you bought a property in the South East in 2015, the market index has grown significantly differently compared to the same period in Scotland. We automatically detect your region to apply the correct economic multiplier.
+                    </p>
+                </div>
+            </div>
+        </div>
+        {/* --- END CONTENT SECTION --- */}
+
       </div>
     );
 
