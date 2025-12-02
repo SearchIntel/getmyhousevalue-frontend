@@ -121,7 +121,7 @@ export default function App() {
   const renderContent = () => {
     if (page === 'how-it-works') {
       return (
-        <InfoPage title="How it Works" icon={FileText} onBack={() => setPage('home')}>
+        <InfoPage title="How it Works" icon={FileText} onBack={() => { setPage('home'); setStep(1); }}>
           <p className="mb-4 text-lg">We use a transparent <strong>"Index-Adjusted"</strong> valuation model. Unlike estate agents who may inflate prices to win your business, we rely purely on official data.</p>
           
           <div className="space-y-6 mt-8">
@@ -153,10 +153,10 @@ export default function App() {
 
     if (page === 'data') {
       return (
-        <InfoPage title="Data Sources" icon={Database} onBack={() => setPage('home')}>
+        <InfoPage title="Data Sources" icon={Database} onBack={() => { setPage('home'); setStep(1); }}>
           <p className="mb-6 text-lg">We are committed to using only <strong>Open Government Data</strong> to ensure neutrality and trust.</p>
           <div className="grid md:grid-cols-2 gap-4">
-            <a href="https://landregistry.data.gov.uk/app/ppd" target="_blank" rel="noopener noreferrer" className="p-6 bg-gray-50 rounded-xl border border-gray-100 hover:border-emerald-200 transition-colors group cursor-pointer block">
+            <a href="https://use-land-property-data.service.gov.uk/datasets/ppd" target="_blank" rel="noopener noreferrer" className="p-6 bg-gray-50 rounded-xl border border-gray-100 hover:border-emerald-200 transition-colors group cursor-pointer block">
               <div className="flex items-center gap-2 mb-3 text-emerald-800 group-hover:text-emerald-600">
                 <Scale size={20} />
                 <h3 className="font-bold">HM Land Registry</h3>
@@ -189,7 +189,7 @@ export default function App() {
 
     if (page === 'privacy') {
         return (
-          <InfoPage title="Privacy Policy" icon={ShieldCheck} onBack={() => setPage('home')}>
+          <InfoPage title="Privacy Policy" icon={ShieldCheck} onBack={() => { setPage('home'); setStep(1); }}>
             <p className="mb-4"><strong>Last Updated: December 2025</strong></p>
             <p className="mb-4">At GetMyHouseValue.co.uk, we prioritize your privacy. We believe in transparency and collecting only what is strictly necessary to provide our service.</p>
             
@@ -301,6 +301,42 @@ export default function App() {
                         If your property hasn't been sold since 1995, there is no digital record of its price in the Land Registry. In these cases, we can show you your property details (from the EPC register) but cannot calculate a growth-based valuation.
                     </p>
                 </div>
+                <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
+                    <h3 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
+                        <HelpCircle size={18} className="text-emerald-600"/> 
+                        How often is the data updated?
+                    </h3>
+                    <p className="text-sm text-gray-600">
+                        The HM Land Registry data and ONS House Price Index are updated monthly. We fetch the latest available data in real-time when you perform a search.
+                    </p>
+                </div>
+                <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
+                    <h3 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
+                        <HelpCircle size={18} className="text-emerald-600"/> 
+                        Can I value commercial property?
+                    </h3>
+                    <p className="text-sm text-gray-600">
+                        Currently, our tool is optimized for residential properties (houses and flats) in England and Wales. Commercial property valuation requires different data sets not yet integrated into this tool.
+                    </p>
+                </div>
+                <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
+                    <h3 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
+                        <HelpCircle size={18} className="text-emerald-600"/> 
+                        My property size looks wrong?
+                    </h3>
+                    <p className="text-sm text-gray-600">
+                        Property sizes are pulled from the Energy Performance Certificate (EPC) register. If your home has been extended since its last EPC assessment, the recorded size might be outdated.
+                    </p>
+                </div>
+                <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
+                    <h3 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
+                        <HelpCircle size={18} className="text-emerald-600"/> 
+                        Do you share my data?
+                    </h3>
+                    <p className="text-sm text-gray-600">
+                        We do not sell your personal data or search history. The postcode you enter is used solely to retrieve the property information and is not stored for marketing purposes.
+                    </p>
+                </div>
             </div>
         </div>
         {/* --- END FAQ SECTION --- */}
@@ -392,13 +428,14 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-white font-sans text-slate-900">
-      <Header setPage={(p) => { setPage(p); }} />
+      {/* Update: Reset step to 1 when navigating via Header (Logo or Menu) */}
+      <Header setPage={(p) => { setPage(p); setStep(1); }} />
       <main className="p-4 md:p-8">{renderContent()}</main>
       <footer className="border-t py-10 mt-20 bg-gray-50 text-center text-gray-400 text-sm">
         <p>© 2025 GetMyHouseValue.co.uk. Built with Open Government Data.</p>
         <div className="mt-4 flex justify-center gap-6">
-            <button onClick={() => setPage('how-it-works')} className="hover:text-gray-600">Methodology</button>
-            <button onClick={() => setPage('privacy')} className="hover:text-gray-600">Privacy Policy</button>
+            <button onClick={() => { setPage('how-it-works'); setStep(1); }} className="hover:text-gray-600">Methodology</button>
+            <button onClick={() => { setPage('privacy'); setStep(1); }} className="hover:text-gray-600">Privacy Policy</button>
         </div>
       </footer>
     </div>
