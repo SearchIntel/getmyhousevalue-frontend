@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { Home, Search, TrendingUp, Info, AlertTriangle, CheckCircle, MapPin, ArrowRight, Building2, Scale, FileText, Database, ShieldCheck, ExternalLink } from 'lucide-react';
+import { Home, Search, TrendingUp, Info, AlertTriangle, CheckCircle, MapPin, ArrowRight, Building2, Scale, FileText, Database, ShieldCheck, ExternalLink, HelpCircle } from 'lucide-react';
 
 // --- CONFIGURATION ---
 const BACKEND_URL = "https://getmyhousevalue-backend.onrender.com"; 
@@ -98,7 +98,7 @@ const Header = ({ setPage }) => (
 // --- MAIN APP ---
 
 export default function App() {
-  const [page, setPage] = useState('home'); // 'home', 'how-it-works', 'data'
+  const [page, setPage] = useState('home'); // 'home', 'how-it-works', 'data', 'privacy'
   const [step, setStep] = useState(1); // 1=Search, 2=List, 3=Result
   const [postcode, setPostcode] = useState('');
   const [loading, setLoading] = useState(false);
@@ -156,7 +156,7 @@ export default function App() {
         <InfoPage title="Data Sources" icon={Database} onBack={() => setPage('home')}>
           <p className="mb-6 text-lg">We are committed to using only <strong>Open Government Data</strong> to ensure neutrality and trust.</p>
           <div className="grid md:grid-cols-2 gap-4">
-            <a href="https://landregistry.data.gov.uk/app/ppd" target="_blank" rel="noopener noreferrer" className="p-6 bg-gray-50 rounded-xl border border-gray-100 hover:border-emerald-200 transition-colors group cursor-pointer block">
+            <a href="https://use-land-property-data.service.gov.uk/datasets/ppd" target="_blank" rel="noopener noreferrer" className="p-6 bg-gray-50 rounded-xl border border-gray-100 hover:border-emerald-200 transition-colors group cursor-pointer block">
               <div className="flex items-center gap-2 mb-3 text-emerald-800 group-hover:text-emerald-600">
                 <Scale size={20} />
                 <h3 className="font-bold">HM Land Registry</h3>
@@ -211,7 +211,7 @@ export default function App() {
 
     // Default Home Page Logic
     if (step === 1) return (
-      <div className="max-w-3xl mx-auto mt-12 md:mt-20 text-center animate-in fade-in duration-700 px-6">
+      <div className="max-w-3xl mx-auto mt-12 md:mt-20 text-center animate-in fade-in duration-700 px-6 pb-20">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold uppercase tracking-wide mb-6">
           <CheckCircle size={12} /> Official Land Registry Data
         </div>
@@ -236,11 +236,10 @@ export default function App() {
           </button>
         </form>
 
-        {/* --- NEW CONTENT SECTION FOR ADSENSE APPROVAL --- */}
+        {/* --- MARKET INSIGHTS --- */}
         <div className="text-left mt-16 pt-12 border-t border-gray-100">
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Understanding UK Property Valuations</h2>
-            
-            <div className="grid md:grid-cols-2 gap-8 text-gray-600">
+            <div className="grid md:grid-cols-2 gap-8 text-gray-600 mb-12">
                 <div>
                     <h3 className="font-bold text-emerald-800 mb-2">How Accurate Are Online Valuations?</h3>
                     <p className="mb-4 text-sm leading-relaxed">
@@ -261,7 +260,50 @@ export default function App() {
                 </div>
             </div>
         </div>
-        {/* --- END CONTENT SECTION --- */}
+
+        {/* --- FAQ SECTION --- */}
+        <div className="text-left border-t border-gray-100 pt-12">
+            <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Frequently Asked Questions</h2>
+            <div className="grid md:grid-cols-2 gap-6">
+                <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
+                    <h3 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
+                        <Info size={18} className="text-emerald-600"/> 
+                        Where does the data come from?
+                    </h3>
+                    <p className="text-sm text-gray-600">
+                        We use official sold price data from the <strong>HM Land Registry</strong> and cross-reference it with property specifications (like square footage) from the <strong>EPC Register</strong>.
+                    </p>
+                </div>
+                <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
+                    <h3 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
+                        <AlertTriangle size={18} className="text-emerald-600"/> 
+                        Does this include my renovation?
+                    </h3>
+                    <p className="text-sm text-gray-600">
+                        No. This is a quantitative model based on market movements since your last purchase. It cannot account for value added through extensions, new kitchens, or loft conversions unless the property has been re-sold since the work was done.
+                    </p>
+                </div>
+                <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
+                    <h3 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
+                        <CheckCircle size={18} className="text-emerald-600"/> 
+                        Is this service really free?
+                    </h3>
+                    <p className="text-sm text-gray-600">
+                        Yes, 100% free. We believe open government data should be accessible to everyone without needing to hand over your email address or phone number to estate agents.
+                    </p>
+                </div>
+                <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
+                    <h3 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
+                        <MapPin size={18} className="text-emerald-600"/> 
+                        Why is my valuation unavailable?
+                    </h3>
+                    <p className="text-sm text-gray-600">
+                        If your property hasn't been sold since 1995, there is no digital record of its price in the Land Registry. In these cases, we can show you your property details (from the EPC register) but cannot calculate a growth-based valuation.
+                    </p>
+                </div>
+            </div>
+        </div>
+        {/* --- END FAQ SECTION --- */}
 
       </div>
     );
