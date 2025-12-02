@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { Home, Search, TrendingUp, Info, AlertTriangle, CheckCircle, MapPin, ArrowRight, Building2, Scale, FileText, Database, ShieldCheck, ExternalLink, HelpCircle, ChevronRight } from 'lucide-react';
 
 // --- CONFIGURATION ---
@@ -215,7 +215,7 @@ export default function App() {
         <InfoPage title="Data Sources" icon={Database} onBack={() => setPage('home')}>
           <p className="mb-6 text-lg">We are committed to using only <strong>Open Government Data</strong> to ensure neutrality and trust.</p>
           <div className="grid md:grid-cols-2 gap-4">
-            <a href="https://landregistry.data.gov.uk/app/ppd" target="_blank" rel="noopener noreferrer" className="p-6 bg-gray-50 rounded-xl border border-gray-100 hover:border-emerald-200 transition-colors group cursor-pointer block">
+            <a href="https://use-land-property-data.service.gov.uk/datasets/ppd" target="_blank" rel="noopener noreferrer" className="p-6 bg-gray-50 rounded-xl border border-gray-100 hover:border-emerald-200 transition-colors group cursor-pointer block">
               <div className="flex items-center gap-2 mb-3 text-emerald-800 group-hover:text-emerald-600"><Scale size={20} /><h3 className="font-bold">HM Land Registry</h3><ExternalLink size={14} className="ml-auto opacity-50" /></div>
               <p className="text-sm text-gray-600">Used for historical sold prices and transaction dates. Contains HM Land Registry data © Crown copyright and database right 2021.</p>
             </a>
@@ -239,7 +239,16 @@ export default function App() {
             <p className="mb-4">At GetMyHouseValue.co.uk, we prioritize your privacy. We believe in transparency and collecting only what is strictly necessary to provide our service.</p>
             <h3 className="font-bold text-gray-900 mt-6 mb-2">1. Information We Collect</h3>
             <p className="mb-4">We do not require you to create an account, provide your name, or submit your email address to use this service.</p>
-            {/* ... (Privacy content remains same) ... */}
+            <ul className="list-disc pl-5 space-y-2 mb-4">
+              <li><strong>Search Data:</strong> We process the postcodes you enter solely to retrieve property data from the HM Land Registry and EPC Register. We do not store this data permanently linked to your identity.</li>
+              <li><strong>Usage Data:</strong> We use Google Analytics to understand how visitors interact with our website (e.g., number of visitors, pages visited). This data is anonymized.</li>
+            </ul>
+  
+            <h3 className="font-bold text-gray-900 mt-6 mb-2">2. Cookies</h3>
+            <p className="mb-4">We use cookies to ensure the basic functionality of the website and for Google Analytics tracking.</p>
+  
+            <h3 className="font-bold text-gray-900 mt-6 mb-2">3. Third-Party Data</h3>
+            <p className="mb-4">Our service relies on public sector information licensed under the Open Government Licence v3.0 from HM Land Registry and the Department for Levelling Up, Housing and Communities.</p>
           </InfoPage>
         );
     }
@@ -290,7 +299,7 @@ export default function App() {
                 </div>
                 <div>
                     <h3 className="font-bold text-emerald-800 mb-2">How Accurate Are Online Valuations?</h3>
-                    <p className="mb-4 text-sm leading-relaxed">Automated Valuation Models (AVMs) like GetMyHouseValue.co.uk provide a data-driven baseline...</p>
+                    <p className="mb-4 text-sm leading-relaxed">Automated Valuation Models (AVMs) like GetMyHouseValue.co.uk provide a data-driven baseline for your property's worth. By analyzing historical sold data from the HM Land Registry and applying regional economic growth factors from the Office for National Statistics (ONS), we can estimate a property's current market value with a high degree of statistical accuracy.</p>
                 </div>
             </div>
         </div>
@@ -301,9 +310,14 @@ export default function App() {
             <div className="grid md:grid-cols-2 gap-6">
                 {/* ... Existing FAQs ... */}
                 <div className="bg-gray-50 p-6 rounded-xl border border-gray-100"><h3 className="font-bold text-gray-900 mb-2 flex items-center gap-2"><Info size={18} className="text-emerald-600"/> Where does the data come from?</h3><p className="text-sm text-gray-600">We use official sold price data from the <strong>HM Land Registry</strong> and cross-reference it with property specifications from the <strong>EPC Register</strong>.</p></div>
+                <div className="bg-gray-50 p-6 rounded-xl border border-gray-100"><h3 className="font-bold text-gray-900 mb-2 flex items-center gap-2"><AlertTriangle size={18} className="text-emerald-600"/> Does this include my renovation?</h3><p className="text-sm text-gray-600">No. This is a quantitative model based on market movements since your last purchase. It cannot account for value added through extensions, new kitchens, or loft conversions unless the property has been re-sold since the work was done.</p></div>
+                <div className="bg-gray-50 p-6 rounded-xl border border-gray-100"><h3 className="font-bold text-gray-900 mb-2 flex items-center gap-2"><CheckCircle size={18} className="text-emerald-600"/> Is this service really free?</h3><p className="text-sm text-gray-600">Yes, 100% free. We believe open government data should be accessible to everyone without needing to hand over your email address or phone number to estate agents.</p></div>
                 <div className="bg-gray-50 p-6 rounded-xl border border-gray-100"><h3 className="font-bold text-gray-900 mb-2 flex items-center gap-2"><MapPin size={18} className="text-emerald-600"/> Why is my valuation unavailable?</h3><p className="text-sm text-gray-600">If your property hasn't been sold since 1995, we can show you your property details but cannot calculate a growth-based valuation.</p></div>
-                <div className="bg-gray-50 p-6 rounded-xl border border-gray-100"><h3 className="font-bold text-gray-900 mb-2 flex items-center gap-2"><HelpCircle size={18} className="text-emerald-600"/> My property size looks wrong?</h3><p className="text-sm text-gray-600">Property sizes are pulled from the EPC register. If your home has been extended since its last EPC assessment, the recorded size might be outdated.</p></div>
-                <div className="bg-gray-50 p-6 rounded-xl border border-gray-100"><h3 className="font-bold text-gray-900 mb-2 flex items-center gap-2"><CheckCircle size={18} className="text-emerald-600"/> Is this service really free?</h3><p className="text-sm text-gray-600">Yes, 100% free. We believe open government data should be accessible to everyone.</p></div>
+                {/* --- 4 MORE FAQS ADDED BELOW --- */}
+                <div className="bg-gray-50 p-6 rounded-xl border border-gray-100"><h3 className="font-bold text-gray-900 mb-2 flex items-center gap-2"><HelpCircle size={18} className="text-emerald-600"/> How often is the data updated?</h3><p className="text-sm text-gray-600">The HM Land Registry data and ONS House Price Index are updated monthly. We fetch the latest available data in real-time when you perform a search.</p></div>
+                <div className="bg-gray-50 p-6 rounded-xl border border-gray-100"><h3 className="font-bold text-gray-900 mb-2 flex items-center gap-2"><HelpCircle size={18} className="text-emerald-600"/> Can I value commercial property?</h3><p className="text-sm text-gray-600">Currently, our tool is optimized for residential properties (houses and flats) in England and Wales. Commercial property valuation requires different data sets not yet integrated into this tool.</p></div>
+                <div className="bg-gray-50 p-6 rounded-xl border border-gray-100"><h3 className="font-bold text-gray-900 mb-2 flex items-center gap-2"><HelpCircle size={18} className="text-emerald-600"/> My property size looks wrong?</h3><p className="text-sm text-gray-600">Property sizes are pulled from the Energy Performance Certificate (EPC) register. If your home has been extended since its last EPC assessment, the recorded size might be outdated.</p></div>
+                <div className="bg-gray-50 p-6 rounded-xl border border-gray-100"><h3 className="font-bold text-gray-900 mb-2 flex items-center gap-2"><HelpCircle size={18} className="text-emerald-600"/> Do you share my data?</h3><p className="text-sm text-gray-600">We do not sell your personal data or search history. The postcode you enter is used solely to retrieve the property information and is not stored for marketing purposes.</p></div>
             </div>
         </div>
       </div>
